@@ -1,10 +1,12 @@
 variable "vpc_tags" {
-    type = string
+    type = map
+    default = {}
   
 }
 
 variable "igw_tags" {
-    type = string
+    type = map
+    default = {}
 
 }
 
