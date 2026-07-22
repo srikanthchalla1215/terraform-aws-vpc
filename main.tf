@@ -114,9 +114,9 @@ resource "aws_eip" "nat" {
   
 }
 
-resource "aws_nat_gateway" "man" {
+resource "aws_nat_gateway" "main" {
   allocation_id = aws_eip.nat.id
-  subnet_id = aws.aws_subnet.public[0].id
+  subnet_id = aws_subnet.public[0].id
 
   tags = merge(
       local.common_tags,
@@ -132,14 +132,14 @@ resource "aws_nat_gateway" "man" {
 resource "aws_route" "private" {
   route_table_id = aws_route_table.private
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id = aws_nat_gateway.man.id
+  nat_gateway_id = aws_nat_gateway.main.id
   
 }
 
 resource "aws_route" "database" {
   route_table_id = aws_route_table.database
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id = aws_nat_gateway.man.id
+  nat_gateway_id = aws_nat_gateway.main.id
   
 }
 resource "aws_route_table_association" "public" {
